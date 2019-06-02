@@ -13,3 +13,46 @@ use:
    -C change temporary dir
    . -recursively process all .class at the specified dir
    jar cfe Demo.jar root.addPack.Demo -C ./bin/ .
+
+MAVEN MVN
+
+    maven loads dependencies and build projects via phases as clean, compile, install, package
+    local repo ~/.m2 can have settings.xml
+    root pom.xml
+
+    <project>
+        //constant
+        <modelVersion>4.0.0</modelVersion>
+        // identifies company, org
+        <groupId>com.vlas</groupId>
+        // ident project
+        <artifactId>webServer</artifactId>
+        <version>1</version>
+        // can be war, default is jar
+        <packaging>jar</packaging>
+        <build>
+            // output dir for compiled files
+            <outputDirectory>compiled</outputDirectory>
+            // name of packaged archive
+            <finalName>webServer</finalName>
+            // folder from which starts fqdn for main class
+            <sourceDirectory>src/root</sourceDirectory>
+            <plugins>
+            // external plugins also mvn plugins
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>3.1.2</version>
+                    <configuration>
+                        <archive>
+                        // set manifest config file to pack .jar as standalone app
+                            <manifest>
+                                <addClasspath>true</addClasspath>
+                                <mainClass>root.addPack.Demo</mainClass>
+                            </manifest>
+                        </archive>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </build>
+    </project>

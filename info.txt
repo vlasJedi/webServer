@@ -1,0 +1,15 @@
+use:
+    -classpath/-cp to specify from which folder is accessible root folder of package ( use absolute path )
+    -d specify existing folder where all compiled file structure will be compiled ( can be relative )
+
+   javac -cp path/to/imported path-to-main() -d path-where-put-compiled
+   javac -cp /home/vlas/IdeaProjects/webServer/src -d ./bin /home/vlas/IdeaProjects/webServer/src/root/addPack/Demo.java
+
+
+   java -cp /home/vlas/IdeaProjects/webServer/bin root.addPack.Demo
+
+   mandatory specify key -c with -f close one to one
+   -e entry point, specify fqdn for main class
+   -C change temporary dir
+   . -recursively process all .class at the specified dir
+   jar cfe Demo.jar root.addPack.Demo -C ./bin/ .

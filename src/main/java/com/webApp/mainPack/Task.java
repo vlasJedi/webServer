@@ -1,14 +1,16 @@
 package com.webApp.mainPack;
 
-import java.util.List;
+import org.springframework.stereotype.Component;
 
+import java.util.List;
+@Component
 public class Task {
     private String name;
     private List<Option> options;
 
-    public Task(String name, List<Option> options) {
-        this.name = name;
-        this.options = options;
+    public Task() {
+        this.name = null;
+        this.options = null;
     }
 
     public String getName() {

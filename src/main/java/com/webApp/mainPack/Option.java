@@ -1,5 +1,8 @@
 package com.webApp.mainPack;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Option {
     private String name;
     private String value;
@@ -12,7 +15,7 @@ public class Option {
     }
 
     public Option() {
-        this("defName_1", "someTextOption_1", false);
+        this(null, null, null);
     }
 
     public String getName() {

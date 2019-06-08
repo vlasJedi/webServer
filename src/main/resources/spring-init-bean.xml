@@ -4,11 +4,11 @@ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="task" class="com.webApp.mainPack.Task">
+    <bean id="task" class="com.webApp.mainPack.Task" scope="prototype">
         <constructor-arg name="name" value="englishTask_1"/>
         <constructor-arg name="options" ref="option"/>
     </bean>
-    <bean id="option" class="com.webApp.mainPack.Option">
+    <bean id="option" class="com.webApp.mainPack.Option" scope="prototype">
         <property name="name" value="firstOptionName"/>
     </bean>
 </beans>

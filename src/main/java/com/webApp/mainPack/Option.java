@@ -2,20 +2,28 @@ package com.webApp.mainPack;
 
 import org.springframework.stereotype.Component;
 
-@Component
-public class Option {
-    private String name;
-    private String value;
-    private Boolean isSelected;
+import javax.persistence.*;
 
-    public Option(String name, String value, Boolean isSelected) {
+@Component
+@Entity
+@Table(name="options")
+public class Option {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name="id")
+    private int id;
+    @Column(name="name")
+    private String name;
+    @Column(name="text_value")
+    private String value;
+
+    public Option(String name, String value) {
         this.name = name;
         this.value = value;
-        this.isSelected = isSelected;
     }
 
     public Option() {
-        this(null, null, null);
+        this(null, null);
     }
 
     public String getName() {
@@ -32,13 +40,5 @@ public class Option {
 
     public void setValue(String value) {
         this.value = value;
-    }
-
-    public Boolean getSelected() {
-        return isSelected;
-    }
-
-    public void setSelected(Boolean selected) {
-        isSelected = selected;
     }
 }

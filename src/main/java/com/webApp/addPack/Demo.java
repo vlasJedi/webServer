@@ -6,10 +6,11 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.persistence.*;
-import java.io.IOException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
+import java.nio.file.Files;
 import java.util.List;
 
 public class Demo {
@@ -64,5 +65,19 @@ public class Demo {
         //task.setName("firstTask");
         //task.setOptions(options);
         //System.out.println(task.getName());
+    }
+    public static BufferedReader readFromFile( String filePath ) {
+        File file = new File("../../../../webapp/WEB-INF/views/index.html");
+        InputStream is = null;
+        Reader reader = null;
+        BufferedReader bufferedReader = null;
+        try {
+            is = new FileInputStream(file);
+            reader = new InputStreamReader(is);
+            bufferedReader = new BufferedReader(reader);
+        } catch (IOException ex) {
+
+        }
+       return bufferedReader;
     }
 }

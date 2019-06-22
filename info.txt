@@ -56,3 +56,49 @@ MAVEN MVN
             </plugins>
         </build>
     </project>
+
+    REG EXP:
+    string.search(REGEXP) - returns first match or -1
+    string.match(REGEXP)
+        -without \g - returns first match, for example with parenthesis:
+            /abc(d)/ - [abcd,d]  a(sth) returns sth as separate element
+        -with \g - returns all matches, abcd is the same as abc(d)
+    REGXEXP.exec(STRING) -
+        -without \g - same as .match
+        -with \g - allows iterate by loop to get all matches also with parenthesis group
+    /regexp/i - capital/regular size
+    /regexp/g - string.match walks for all matches
+    \d - one digit
+    \s - one space ???
+    \w - a-zA-Z0-9_
+    \D - one not digit
+    \S - one not space
+    \W - one to word
+    \B - one inverted to \b, no endings, only in text
+
+    /\bREGEXP\b/ - \b borders, uses pair matching of symbols to find:
+        1) /startOfString\w/i
+        2) /\wEndOfString/i
+        3) /[^w]\w/i or /\w[^w]/i
+    [^] matches ONE symbol, which doesn't belong to specified range
+    PAPANTHSES GROUP:
+        /AB(C)/ matches ab, abc, c
+    quntificatots:
+        \d{5} 5 consistent digits
+        \d{3,5} from 3 to 5
+        \d{3,} from 3 to infinity
+        \d+ one and great
+        \d? one or zero
+        \d* zero and greater
+    examples:
+        get all #000000-#ffffff colors:
+            match - /\b#[a-f0-9]{6}]\b/ig - will find even #ffffffff and gives #ffffff which is incorrect because in origin text
+                it can be another thing
+                so use with \b to exclude precisely #hexColors words
+            /\ba/ - start of string or [^\w] and then 'a'
+            match - /\b#[a-f0-9]{6}\b/ig - NOT WORK ! because \b not allows # as \w
+            correct :  /#[a-f0-9]{6}\b/ig
+
+        from "1.5 0 12. 123.4. -44" get all positive nums
+            match - /(^|\s)\d+\.?\d*\b/g
+                match with \g ignores parenthesis group

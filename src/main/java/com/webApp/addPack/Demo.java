@@ -10,21 +10,21 @@ import java.io.*;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
-import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.SQLOutput;
 import java.util.List;
 
 public class Demo {
     public static void main(String[] args) {
         ApplicationContext context = new ClassPathXmlApplicationContext("spring-init-bean.xml");
-       /* Runnable server = new RunnableServer();
+        /* Runnable server = new RunnableServer();
         Thread serverThread = new Thread(server);
         serverThread.start();*/
         InetAddress address;
         try {
             address = InetAddress.getByName("localhost");
-            System.out.println(address.getHostName());
             InetSocketAddress isa = new InetSocketAddress(address.getHostName(), 8080);
-            System.out.println(isa.getHostName());
             HttpServer httpServer = HttpServer.create(isa,0);
             httpServer.createContext("/", new RootHandler());
             httpServer.setExecutor(null); // creates a default executor
@@ -65,19 +65,5 @@ public class Demo {
         //task.setName("firstTask");
         //task.setOptions(options);
         //System.out.println(task.getName());
-    }
-    public static BufferedReader readFromFile( String filePath ) {
-        File file = new File("../../../../webapp/WEB-INF/views/index.html");
-        InputStream is = null;
-        Reader reader = null;
-        BufferedReader bufferedReader = null;
-        try {
-            is = new FileInputStream(file);
-            reader = new InputStreamReader(is);
-            bufferedReader = new BufferedReader(reader);
-        } catch (IOException ex) {
-
-        }
-       return bufferedReader;
     }
 }

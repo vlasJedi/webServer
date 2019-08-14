@@ -41,7 +41,7 @@ public class Demo {
         the application should close the entity manager factory. Once an EntityManagerFactory has been closed,
         all its entity managers are considered to be in the closed state.
         @param persistenceUnitName - name from config file for the unit*/
-        /*EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("postgres");
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("postgres");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
@@ -60,7 +60,7 @@ public class Demo {
         System.out.println("List[0] element: " + options.get(0).getValue());
         transaction.commit();
         entityManager.close();
-        entityManagerFactory.close();*/
+        entityManagerFactory.close();
         //options.add(option);
         //task.setName("firstTask");
         //task.setOptions(options);

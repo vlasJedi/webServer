@@ -12,7 +12,7 @@ import java.util.Map;
 public class RootHandler implements HttpHandler {
     public void handle(HttpExchange httpExchange) throws IOException {
         System.out.println("Requested URL: " + httpExchange.getRequestURI());
-        if ()
+        //if ()
         String basePath = "/home/vlas/IdeaProjects/webServer/src/main/webapp/WEB-INF/views/";
         Path rootHTMLPath = Paths.get(basePath, "index.html");
         MyFileReader fileReader = new MyFileReader("rootIndexHtml", rootHTMLPath.toString());

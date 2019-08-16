@@ -1,8 +1,9 @@
 package com.webApp.addPack;
 import com.sun.net.httpserver.HttpServer;
-import com.webApp.mainPack.Task;
 import com.webApp.mainPack.Option;
+import com.webApp.mainPack.Task;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.persistence.*;
@@ -17,7 +18,14 @@ import java.util.List;
 
 public class Demo {
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("spring-init-bean.xml");
+        // this reads config.xml to establish context
+        //ApplicationContext context = new ClassPathXmlApplicationContext("spring-init-bean.xml");
+        // this annotation based
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        // scan for beans
+        context.scan("com.webApp");
+        // need to clear all already runnable instances
+        context.refresh();
         /* Runnable server = new RunnableServer();
         Thread serverThread = new Thread(server);
         serverThread.start();*/
@@ -42,22 +50,28 @@ public class Demo {
         all its entity managers are considered to be in the closed state.
         @param persistenceUnitName - name from config file for the unit*/
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("postgres");
+        // represents the application session or dialog with the database
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
         transaction.begin();
-        entityManager.flush();
         //Task task = (Task) context.getBean("task");
         //List<Option> options = (List<Option>) context.getBean("options");
-        Option option = new Option();
-        option.setName("1");
-        option.setValue("someWord1");
-        entityManager.persist(option);
-        Option option1 = entityManager.find(Option.class, 1);
-        System.out.println("Value from DB: " + option1.getValue());
-        String queryStringSelectAll = "SELECT a FROM Option a ";
-        TypedQuery<Option> querySelectAllFromOptions = entityManager.createQuery(queryStringSelectAll, Option.class);
-        List<Option> options = querySelectAllFromOptions.getResultList();
-        System.out.println("List[0] element: " + options.get(0).getValue());
+        Option option = context.getBean(Option.class);
+        clearTable(Option.class, entityManager);
+        option.setName("Loco");
+        option.setValue("Crazy");
+        // CRUD operations
+        entityManager.persist(option); // INSERT
+        // this is read from db by find method
+        //Option option1 = entityManager.find(Option.class, 1); // SELECT
+        //System.out.println("Value from DB: " + option1.getValue());
+        // create query
+        //String queryStringSelectAll = "SELECT a FROM Option a ";
+        //TypedQuery<Option> querySelectAllFromOptions = entityManager.createQuery(queryStringSelectAll, Option.class);
+        //List<Option> options = querySelectAllFromOptions.getResultList();
+        //System.out.println("List[0] element: " + options.get(0).getValue());
+        // sync pers context and sends all current queries to be executed, but last word on .commit()
+        entityManager.flush();
         transaction.commit();
         entityManager.close();
         entityManagerFactory.close();
@@ -65,5 +79,16 @@ public class Demo {
         //task.setName("firstTask");
         //task.setOptions(options);
         //System.out.println(task.getName());
+    }
+    public static <T> boolean clearTable(Class<T> entity, EntityManager entityManager) {
+        int primaryKey = 1;
+        T entityFromDb = null;
+        while ( (entityFromDb = entityManager.find(entity, primaryKey)) != null ) {
+            entityManager.remove(entityFromDb);
+            System.out.println("main:clearTable: Removed entity: " + entity + " with id: " + primaryKey);
+            primaryKey++;
+        }
+        System.out.println("main:clearTable: Finished");
+        return true;
     }
 }

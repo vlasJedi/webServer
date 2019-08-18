@@ -11,7 +11,7 @@ import static java.net.InetAddress.*;
 
 public class RunnableServer {
     public RunnableServer() {
-        //ServerSocket serveeSocket = new ServerSocket(80);
+        //ServerSocket serverSocket = new ServerSocket(80);
     }
 
 }

@@ -1,13 +1,9 @@
 package com.webApp.mainPack;
-
-import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
 
-@Component
 @Entity
 @Table(name="options")
-public class Option {
+public class Option implements EntityActionable{
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name="id")
@@ -16,14 +12,8 @@ public class Option {
     private String name;
     @Column(name="text_value")
     private String value;
-
-    public Option(String name, String value) {
-        this.name = name;
-        this.value = value;
-    }
-
-    public Option() {
-        this(null, null);
+    public int getId() {
+        return id;
     }
 
     public String getName() {

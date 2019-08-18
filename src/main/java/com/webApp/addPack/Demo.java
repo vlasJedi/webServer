@@ -1,5 +1,8 @@
 package com.webApp.addPack;
+import com.fasterxml.classmate.AnnotationOverrides;
 import com.sun.net.httpserver.HttpServer;
+import com.webApp.config.SpringConfig;
+import com.webApp.mainPack.EntityActionable;
 import com.webApp.mainPack.Option;
 import com.webApp.mainPack.Task;
 import org.springframework.context.ApplicationContext;
@@ -14,6 +17,8 @@ import java.net.UnknownHostException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLOutput;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class Demo {
@@ -21,15 +26,15 @@ public class Demo {
         // this reads config.xml to establish context
         //ApplicationContext context = new ClassPathXmlApplicationContext("spring-init-bean.xml");
         // this annotation based
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
         // scan for beans
-        context.scan("com.webApp");
+        //context.scan("com.webApp");
         // need to clear all already runnable instances
         context.refresh();
         /* Runnable server = new RunnableServer();
         Thread serverThread = new Thread(server);
         serverThread.start();*/
-        InetAddress address;
+        /*InetAddress address;
         try {
             address = InetAddress.getByName("localhost");
             InetSocketAddress isa = new InetSocketAddress(address.getHostName(), 8080);
@@ -41,7 +46,7 @@ public class Demo {
             System.out.println("Could not resolve ip/hostname");
         } catch (IOException e) {
             System.out.println("Could not IOException");
-        }
+        }*/
 
         /*
         EntityManagerFactory - Interface used to interact with the entity manager factory for the persistence unit.
@@ -56,19 +61,14 @@ public class Demo {
         transaction.begin();
         //Task task = (Task) context.getBean("task");
         //List<Option> options = (List<Option>) context.getBean("options");
-        Option option = context.getBean(Option.class);
+        EntityActionable option = context.getBean("option", EntityActionable.class);
         clearTable(Option.class, entityManager);
         option.setName("Loco");
-        option.setValue("Crazy");
         // CRUD operations
         entityManager.persist(option); // INSERT
         // this is read from db by find method
         //Option option1 = entityManager.find(Option.class, 1); // SELECT
         //System.out.println("Value from DB: " + option1.getValue());
-        // create query
-        //String queryStringSelectAll = "SELECT a FROM Option a ";
-        //TypedQuery<Option> querySelectAllFromOptions = entityManager.createQuery(queryStringSelectAll, Option.class);
-        //List<Option> options = querySelectAllFromOptions.getResultList();
         //System.out.println("List[0] element: " + options.get(0).getValue());
         // sync pers context and sends all current queries to be executed, but last word on .commit()
         entityManager.flush();
@@ -80,15 +80,28 @@ public class Demo {
         //task.setOptions(options);
         //System.out.println(task.getName());
     }
-    public static <T> boolean clearTable(Class<T> entity, EntityManager entityManager) {
-        int primaryKey = 1;
+    // Class<T> - represents class of object with type T, to get such need Class.class
+    public static <T> boolean clearTable(Class<T> entityClass, EntityManager entityManager) {
+        int primaryKey;
         T entityFromDb = null;
-        while ( (entityFromDb = entityManager.find(entity, primaryKey)) != null ) {
-            entityManager.remove(entityFromDb);
-            System.out.println("main:clearTable: Removed entity: " + entity + " with id: " + primaryKey);
-            primaryKey++;
+        List<T> rows = getRows(entityClass, entityManager);
+        if ( rows == null ) {
+            System.out.println("** clearTable: no rows to clear !");
+            return false;
         }
-        System.out.println("main:clearTable: Finished");
+        // while ( (entityFromDb = entityManager.find(entityClass, primaryKey)) != null ) {
+        rows.forEach( (row) -> {
+            entityManager.remove(row);
+            System.out.println("main:clearTable: Removed entity: " + row);
+        });
+        System.out.println("** main:clearTable: Finished");
         return true;
+    }
+    public static <T> List<T> getRows(Class<T> entityClass, EntityManager entityManager) {
+        // create query
+        String queryStringSelectAll = "SELECT o FROM Option o ";
+        TypedQuery<T> querySelectAllFromOptions = entityManager.createQuery(queryStringSelectAll, entityClass);
+        List<T> rows = querySelectAllFromOptions.getResultList();
+        return rows;
     }
 }

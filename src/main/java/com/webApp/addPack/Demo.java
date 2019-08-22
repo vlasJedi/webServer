@@ -30,7 +30,7 @@ public class Demo {
         // scan for beans
         //context.scan("com.webApp");
         // need to clear all already runnable instances
-        context.refresh();
+        //context.refresh();
         /* Runnable server = new RunnableServer();
         Thread serverThread = new Thread(server);
         serverThread.start();*/

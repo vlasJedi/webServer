@@ -1,9 +1,13 @@
 package com.webApp.mainPack;
 import javax.persistence.*;
 
+// java jpa entity which maps to table, must be POJO, the anno marks that the class can be used to map to table
 @Entity
-@Table(name="options")
+// table name in db
+@Table(name="options", schema = "public")
 public class Option implements EntityActionable{
+
+    // must have empty constructor to be entity
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -15,6 +19,11 @@ public class Option implements EntityActionable{
 
     @Column(name="text_value")
     private String value;
+    // @ManyToOne is most effective in sql generation, so it is put to child entities
+    @ManyToOne()
+    // column in the table which points to another table, so it is foreign key
+    @JoinColumn(name="task_id")
+    private Task task;
 
     public int getId() {
         return id;
@@ -34,5 +43,13 @@ public class Option implements EntityActionable{
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
     }
 }

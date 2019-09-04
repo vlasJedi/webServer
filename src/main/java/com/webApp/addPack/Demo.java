@@ -1,13 +1,18 @@
 package com.webApp.addPack;
+import com.fasterxml.classmate.AnnotationConfiguration;
 import com.fasterxml.classmate.AnnotationOverrides;
 import com.sun.net.httpserver.HttpServer;
 import com.webApp.config.SpringConfig;
 import com.webApp.mainPack.EntityActionable;
+import com.webApp.mainPack.HibernateSession;
 import com.webApp.mainPack.Option;
 import com.webApp.mainPack.Task;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.annotation.AnnotationConfigurationException;
 
 import javax.persistence.*;
 import java.io.*;
@@ -27,6 +32,9 @@ public class Demo {
         //ApplicationContext context = new ClassPathXmlApplicationContext("spring-init-bean.xml");
         // this annotation based
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfig.class);
+        Session session = HibernateSession.getSession();
+        Transaction transaction = session.getTransaction();
+        transaction.begin();
         // scan for beans
         //context.scan("com.webApp");
         // need to clear all already runnable instances
@@ -54,27 +62,34 @@ public class Demo {
         the application should close the entity manager factory. Once an EntityManagerFactory has been closed,
         all its entity managers are considered to be in the closed state.
         @param persistenceUnitName - name from config file for the unit*/
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("postgres");
+
+        /*EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("postgres");
         // represents the application session or dialog with the database
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction transaction = entityManager.getTransaction();
-        transaction.begin();
-        //Task task = (Task) context.getBean("task");
-        //List<Option> options = (List<Option>) context.getBean("options");
-        EntityActionable option = context.getBean("option", EntityActionable.class);
-        clearTable(Option.class, entityManager);
+        transaction.begin();*/
+        Task task = context.getBean("task", Task.class);
+        task.setName("Task1");
+        Option option = context.getBean("option", Option.class);
+        /*clearTable(Option.class, entityManager);
+        clearTable(Task.class, entityManager);*/
         option.setName("Loco");
+        option.setTask(task);
+        session.save(task);
+        session.save(option);
         // CRUD operations
-        entityManager.persist(option); // INSERT
+        //entityManager.persist(option); // INSERT
+        //entityManager.persist(task); // INSERT
         // this is read from db by find method
         //Option option1 = entityManager.find(Option.class, 1); // SELECT
         //System.out.println("Value from DB: " + option1.getValue());
         //System.out.println("List[0] element: " + options.get(0).getValue());
         // sync pers context and sends all current queries to be executed, but last word on .commit()
-        entityManager.flush();
+        //entityManager.flush();
         transaction.commit();
-        entityManager.close();
-        entityManagerFactory.close();
+        session.close();
+        //entityManager.close();
+        //entityManagerFactory.close();
         //options.add(option);
         //task.setName("firstTask");
         //task.setOptions(options);

@@ -1,17 +1,13 @@
 package com.webApp.config;
 
-import com.webApp.mainPack.Option;
-import com.webApp.mainPack.Task;
+import com.webApp.repos.OptionRepo.Option;
+import com.webApp.repos.TaskRepo.Task;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Configuration
 // searches in resources folder

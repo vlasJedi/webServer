@@ -1,11 +1,13 @@
-package com.webApp.mainPack;
+package com.webApp.repos.OptionRepo;
+import com.webApp.repos.TaskRepo.Task;
+
 import javax.persistence.*;
 
 // java jpa entity which maps to table, must be POJO, the anno marks that the class can be used to map to table
 @Entity
 // table name in db
 @Table(name="options", schema = "public")
-public class Option implements EntityActionable{
+public class Option {
 
     // must have empty constructor to be entity
 

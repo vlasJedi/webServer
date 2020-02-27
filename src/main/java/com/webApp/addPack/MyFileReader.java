@@ -9,8 +9,7 @@ public class MyFileReader {
     private Reader inputStreamReader = null;
     private BufferedReader bufferedReader = null;
     private String fileTxtBuffer = "";
-    public MyFileReader(String fileName, String filePath) {
-        file = new File(filePath);
+    public MyFileReader(File file) {
         try {
             inputStream = new FileInputStream(file);
             inputStreamReader = new InputStreamReader(inputStream);

@@ -1,7 +1,6 @@
-package com.webApp.mainPack;
+package com.webApp.repos.TaskRepo;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import com.webApp.repos.OptionRepo.Option;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.List;
 @Entity
 // defines table name in db
 @Table(name="tasks", schema = "public")
-public class Task implements EntityActionable{
+public class Task {
 
     // each entity must have its primary key
     @Id

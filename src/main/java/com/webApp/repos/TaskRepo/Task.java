@@ -19,19 +19,24 @@ public class Task {
 
     @Column(name="name")
     private String name;
-    @Column(name="options")
+
+    /*@Column(name="desc")
+    private String desc;*/
+    /*@Column(name="options")
+
     // Go look over on the bean 'option' property named 'task' on the thing I have a collection of to find the configuration
     @OneToMany(mappedBy = "task")
-    private List<Option> options;
+    private List<Option> options;*/
 
     public String getName() {
         return name;
     }
 
 
-    public Task(String name, List<Option> options) {
+    public Task(String name, String desc) {
         this.name = name;
-        this.options = options;
+        //this.desc = desc;
+        //this.options = options;
     }
     // must have empty public constr
     public Task() {
@@ -40,16 +45,25 @@ public class Task {
     public int getId() {
         return id;
     }
+
+   /* public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
+    }*/
+
     public void setName(String name) {
         this.name = name;
     }
 
     // maps to another entities
-    public List<Option> getOptions() {
+    /*public List<Option> getOptions() {
         return options;
     }
 
     public void setOptions(List<Option> options) {
         this.options = options;
-    }
+    }*/
 }

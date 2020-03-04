@@ -2,14 +2,14 @@ package com.webApp.addPack;
 
 import java.io.*;
 
-public class MyFileReader {
+public class MyFileStringReader {
     private String fileName = "";
     private File file = null;
     private InputStream inputStream = null;
     private Reader inputStreamReader = null;
     private BufferedReader bufferedReader = null;
     private String fileTxtBuffer = "";
-    public MyFileReader(File file) {
+    public MyFileStringReader(File file) {
         try {
             inputStream = new FileInputStream(file);
             inputStreamReader = new InputStreamReader(inputStream);

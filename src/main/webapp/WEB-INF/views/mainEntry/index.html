@@ -8,5 +8,19 @@
 </head>
 <body>
     <h1>You are on the best page for study English by exercises, aga</h1>
+    <form action="/tasks" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="taskNameInput">Task name: </label>
+            <input type="text" name="taskName" id="taskNameInput"/>
+        </div>
+        <div>
+            <label for="taskDescInput">Task description: </label>
+            <input type="text" name="taskDesc" id="taskDescInput"/>
+        </div>
+        <div>
+            <label for="taskSubmit">Submit task</label>
+            <input type="submit" name="taskSubmit" id="taskSubmit"/>
+        </div>
+    </form>
 </body>
 </html>

@@ -33,6 +33,6 @@ public class SpringConfig {
     @Bean(name="task")
     @Scope("prototype")
     public Task task() {
-        return new Task("defaultName", null);
+        return new Task("defaultName", "noDesc");
     }
 }

@@ -38,16 +38,15 @@ public class Demo {
         EntityManager em = PersistenceManager.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        Task task = new Task();
-        task.setName("Task1");
+        Task task = new Task("Task1", "test task from main method");
         //EntityActionable option = context.getBean("option", EntityActionable.class);
-        Option option = new Option();
+        //Option option = new Option();
         /*clearTable(Option.class, entityManager);
         clearTable(Task.class, entityManager);*/
-        option.setName("Loco");
-        option.setTask(task);
+        //option.setName("Loco");
+        //option.setTask(task);
         em.persist(task);
-        em.persist(option);
+        //em.persist(option);
         // CRUD operations
         //entityManager.persist(option); // INSERT
         //entityManager.persist(task); // INSERT

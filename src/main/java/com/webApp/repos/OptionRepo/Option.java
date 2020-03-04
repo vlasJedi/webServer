@@ -21,11 +21,11 @@ public class Option {
 
     @Column(name="text_value")
     private String value;
-    // @ManyToOne is most effective in sql generation, so it is put to child entities
+    /*// @ManyToOne is most effective in sql generation, so it is put to child entities
     @ManyToOne()
     // column in the table which points to another table, so it is foreign key
     @JoinColumn(name="task_id")
-    private Task task;
+    private Task task;*/
 
     public int getId() {
         return id;
@@ -47,11 +47,11 @@ public class Option {
         this.value = value;
     }
 
-    public Task getTask() {
+   /* public Task getTask() {
         return task;
     }
 
     public void setTask(Task task) {
         this.task = task;
-    }
+    }*/
 }

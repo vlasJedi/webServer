@@ -35,17 +35,17 @@ public class Demo {
         AppServer.start();
 
 
-        EntityManager em = PersistenceManager.getEntityManager();
-        EntityTransaction transaction = em.getTransaction();
-        transaction.begin();
-        Task task = new Task("Task1", "test task from main method");
+        //EntityManager em = PersistenceManager.getEntityManager();
+        //EntityTransaction transaction = em.getTransaction();
+        //transaction.begin();
+        //Task task = new Task("Task1", "test task from main method");
         //EntityActionable option = context.getBean("option", EntityActionable.class);
         //Option option = new Option();
         /*clearTable(Option.class, entityManager);
         clearTable(Task.class, entityManager);*/
         //option.setName("Loco");
         //option.setTask(task);
-        em.persist(task);
+        //em.persist(task);
         //em.persist(option);
         // CRUD operations
         //entityManager.persist(option); // INSERT
@@ -55,11 +55,11 @@ public class Demo {
         //System.out.println("Value from DB: " + option1.getValue());
         //System.out.println("List[0] element: " + options.get(0).getValue());
         // sync pers context and sends all current queries to be executed, but last word on .commit()
-        em.flush();
-        transaction.commit();
+        //em.flush();
+        //transaction.commit();
         //session.close();
-        em.close();
-        PersistenceManager.close();
+        //em.close();
+        //PersistenceManager.close();
         //options.add(option);
         //task.setName("firstTask");
         //task.setOptions(options);

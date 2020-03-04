@@ -13,9 +13,9 @@ public class PersistenceManager {
         all its entity managers are considered to be in the closed state.
         @param persistenceUnitName - name from config file for the unit*/
         if (emf != null) return emf.createEntityManager();
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("appData");
+        emf = Persistence.createEntityManagerFactory("appData");
         // represents the application session or dialog with the database
-        return entityManagerFactory.createEntityManager();
+        return emf.createEntityManager();
     }
     public static void close() {
         if (emf != null) {

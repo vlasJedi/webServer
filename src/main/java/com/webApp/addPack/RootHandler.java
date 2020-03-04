@@ -34,11 +34,6 @@ public class RootHandler implements HttpHandler {
                 response = superArray.addBytesFromFileInput(getFileInStreamForThePath("/index.html")).getData();
                 contentLength = superArray.getTotalDataSize();
                 break;
-            case "/tasks":
-                response = new byte[1][];
-                response[0] = taskRestService(httpExchange.getRequestMethod(), httpExchange.getRequestURI(), httpExchange.getRequestBody());
-                contentLength = response[0].length;
-                break;
             default:
                 superArray = new SuperArray();
                 response = superArray.addBytesFromFileInput(getFileInStreamForThePath(httpExchange.getRequestURI()
@@ -55,13 +50,18 @@ public class RootHandler implements HttpHandler {
             fileTextContent = "Error 503: could not get fileTextContent for the url";
         }
         bufferedWriter.write( fileTextContent );*/
-        httpExchange.sendResponseHeaders(200, contentLength);
-        if (response == null) {
-            System.out.println("*** Response body is empty");
-        } else {
-            for (byte[] responseBytes : response) {
-                outputStream.write(responseBytes);
+        try {
+            httpExchange.sendResponseHeaders(200, contentLength);
+            if (response == null) {
+                System.out.println("*** Response body is empty");
+            } else {
+                for (byte[] responseBytes : response) {
+                    outputStream.write(responseBytes);
+                }
+                outputStream.close();
             }
+        } catch (IOException e) {
+            System.out.println("*** RootHandle:handle " + e.toString());
         }
         //fileReader.close();
         //bufferedWriter.close();
@@ -80,45 +80,4 @@ public class RootHandler implements HttpHandler {
         return fis;
     }
 
-    private byte[] taskRestService(String method, URI requestURI, InputStream requestBodyStream) {
-        byte[] response = null;
-        int requestBodyLength = 0;
-        EntityManager em = null;
-        EntityTransaction transaction = null;
-        switch (method) {
-            case "GET":
-                em = PersistenceManager.getEntityManager();
-                transaction = em.getTransaction();
-                transaction.begin();
-                List<Task> tasksRecords = em.createQuery("SELECT obj FROM Task obj", Task.class).getResultList();
-                StringBuilder tasksNames = new StringBuilder("");
-                tasksRecords.listIterator().forEachRemaining(task -> {
-                    tasksNames.append("Task name is: ").append(task.getName()).append("\r\n");
-                });
-                transaction.commit();
-                em.close();
-                response  = tasksNames.toString().getBytes(StandardCharsets.UTF_8);
-                break;
-            case "POST":
-                em = PersistenceManager.getEntityManager();
-                transaction = em.getTransaction();
-                transaction.begin();
-                try {
-                    byte[] bodyBytes = new byte[requestBodyStream.available()];
-                    requestBodyLength = requestBodyStream.read(bodyBytes);
-                    Map<String, String> requestMap = HttpUtils.getParsedRequestMultiPartBody(bodyBytes);
-                    em = PersistenceManager.getEntityManager();
-                    transaction = em.getTransaction();
-                    transaction.begin();
-                    Task task = new Task(requestMap.get("taskName"), requestMap.get("tasDesc"));
-                    em.persist(task);
-                    em.flush();
-                    transaction.commit();
-                    em.close();
-                } catch (IOException e) {
-                    System.out.println("*** " + e.toString());
-                }
-        }
-        return response;
-    }
 }

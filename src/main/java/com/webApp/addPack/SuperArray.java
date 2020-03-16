@@ -2,6 +2,7 @@ package com.webApp.addPack;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class SuperArray {
     private byte[][] data;
@@ -23,7 +24,7 @@ public class SuperArray {
             return this;
         } catch (IOException e) {
             System.out.println("*** writeBytesFromFileInputToOutput: " + e.toString());
-            return null;
+            return this;
         }
     }
 

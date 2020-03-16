@@ -1,11 +1,5 @@
 package com.webApp.mainPack;
 
-import com.webApp.repos.OptionRepo.Option;
-import com.webApp.repos.TaskRepo.Task;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
-
 public class HibernateSession {
     /*private static SessionFactory sessionFactoryInstance;
     private static SessionFactory createSessionFactory() {

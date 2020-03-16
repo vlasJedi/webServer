@@ -1,13 +1,15 @@
-package com.webApp.repos.OptionRepo;
+package com.webApp.repos.CategoryRepo;
+
 import com.webApp.repos.TaskRepo.Task;
 
 import javax.persistence.*;
+import java.util.List;
 
 // java jpa entity which maps to table, must be POJO, the anno marks that the class can be used to map to table
 @Entity
 // table name in db
-@Table(name="options", schema = "public")
-public class Option {
+@Table(name="CATEGORIES", schema = "public")
+public class Category {
 
     // must have empty constructor to be entity
 
@@ -21,11 +23,18 @@ public class Option {
 
     @Column(name="text_value")
     private String value;
-    /*// @ManyToOne is most effective in sql generation, so it is put to child entities
-    @ManyToOne()
-    // column in the table which points to another table, so it is foreign key
-    @JoinColumn(name="task_id")
-    private Task task;*/
+
+    /*
+    * @mappedBy - field in mapped entity class on which @joincolumn is set, name of variable
+    * */
+    @OneToMany(mappedBy = "category")
+    private List<Task> tasks;
+
+    public Category() {}
+    public Category(String name, String value) {
+        this.name = name;
+        this.value = value;
+    }
 
     public int getId() {
         return id;
@@ -47,11 +56,15 @@ public class Option {
         this.value = value;
     }
 
-   /* public Task getTask() {
-        return task;
+    public List<Task> getTasks() {
+        return tasks;
     }
 
-    public void setTask(Task task) {
-        this.task = task;
-    }*/
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public String toJson() {
+        return "{\"name\": \"" + name + "\", \"text_value\": \"" + value + "\"}";
+    }
 }

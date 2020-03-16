@@ -28,17 +28,38 @@ public class RootHandler implements HttpHandler {
         byte[][] response = null;
         SuperArray superArray = null;
         long contentLength = 0;
+        int statusCode = 500;
+        FileInputStream fis;
         switch (httpExchange.getRequestURI().toString()) {
             case "/":
+                if ((fis = getFileInStreamForThePath("/index.html")) == null) {
+                    String errorMsg = HttpUtils.HTTP_STATUSES.NOT_FOUND.toString();
+                    statusCode = HttpUtils.HTTP_STATUSES.NOT_FOUND.getStatusCode();
+                    System.out.println(errorMsg);
+                    response = new byte[1][];
+                    response[0] = errorMsg.getBytes(StandardCharsets.UTF_8);
+                    contentLength = response[0].length;
+                    break;
+                }
                 superArray = new SuperArray();
-                response = superArray.addBytesFromFileInput(getFileInStreamForThePath("/index.html")).getData();
+                response = superArray.addBytesFromFileInput(fis).getData();
                 contentLength = superArray.getTotalDataSize();
+                statusCode = HttpUtils.HTTP_STATUSES.SUCCESS.getStatusCode();
                 break;
             default:
+                if ((fis = getFileInStreamForThePath(httpExchange.getRequestURI().getPath())) == null) {
+                    String errorMsg = HttpUtils.HTTP_STATUSES.NOT_FOUND.toString();
+                    statusCode = HttpUtils.HTTP_STATUSES.NOT_FOUND.getStatusCode();
+                    System.out.println(errorMsg);
+                    response = new byte[1][];
+                    response[0] = errorMsg.getBytes(StandardCharsets.UTF_8);
+                    contentLength = response[0].length;
+                    break;
+                }
                 superArray = new SuperArray();
-                response = superArray.addBytesFromFileInput(getFileInStreamForThePath(httpExchange.getRequestURI()
-                        .getPath())).getData();
+                response = superArray.addBytesFromFileInput(fis).getData();
                 contentLength = superArray.getTotalDataSize();
+                statusCode = HttpUtils.HTTP_STATUSES.SUCCESS.getStatusCode();
         }
 
         OutputStream outputStream = httpExchange.getResponseBody();
@@ -51,15 +72,16 @@ public class RootHandler implements HttpHandler {
         }
         bufferedWriter.write( fileTextContent );*/
         try {
-            httpExchange.sendResponseHeaders(200, contentLength);
             if (response == null) {
+                httpExchange.sendResponseHeaders(statusCode, contentLength);
                 System.out.println("*** Response body is empty");
             } else {
+                httpExchange.sendResponseHeaders(statusCode, contentLength);
                 for (byte[] responseBytes : response) {
                     outputStream.write(responseBytes);
                 }
-                outputStream.close();
             }
+            outputStream.close();
         } catch (IOException e) {
             System.out.println("*** RootHandle:handle " + e.toString());
         }
@@ -70,7 +92,10 @@ public class RootHandler implements HttpHandler {
 
     private FileInputStream getFileInStreamForThePath(String path) {
         File file = Paths.get(BASE_FILE_PATH, path).toAbsolutePath().toFile();
-        if (!file.exists()) System.out.println("*** The file does not exist: " + file.getAbsolutePath());
+        if (!file.exists()) {
+            System.out.println("*** The file does not exist: " + file.getAbsolutePath());
+            return null;
+        }
         FileInputStream fis = null;
         try {
             fis = new FileInputStream(file);

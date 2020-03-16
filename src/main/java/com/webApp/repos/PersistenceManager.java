@@ -22,4 +22,8 @@ public class PersistenceManager {
             emf.close();
         }
     }
+
+    public static void open() {
+        emf = Persistence.createEntityManagerFactory("appData");
+    }
 }

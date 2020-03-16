@@ -1,6 +1,7 @@
 package com.webApp.server;
 
 import com.sun.net.httpserver.HttpServer;
+import com.webApp.RestServices.CategoriesRestService;
 import com.webApp.RestServices.TasksRestService;
 import com.webApp.addPack.RootHandler;
 
@@ -15,6 +16,7 @@ public class AppServer {
             HttpServer httpServer = HttpServer.create(isa,0);
             httpServer.createContext("/", new RootHandler());
             httpServer.createContext("/tasks", new TasksRestService());
+            httpServer.createContext("/categories", new CategoriesRestService());
             httpServer.setExecutor(null); // creates a default executor
             httpServer.start();
         } catch (UnknownHostException e) {

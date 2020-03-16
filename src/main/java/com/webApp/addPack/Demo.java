@@ -1,25 +1,16 @@
 package com.webApp.addPack;
-import com.sun.net.httpserver.HttpServer;
-import com.webApp.config.SpringConfig;
-import com.webApp.mainPack.EntityActionable;
-import com.webApp.mainPack.HibernateSession;
-import com.webApp.repos.OptionRepo.Option;
+import com.webApp.repos.CategoryRepo.Category;
+import com.webApp.repos.CategoryRepo.CategoryService;
 import com.webApp.repos.PersistenceManager;
-import com.webApp.repos.TaskRepo.Task;
 import com.webApp.server.AppServer;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import javax.persistence.*;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.UnknownHostException;
 import java.util.List;
+import java.util.Set;
 
 public class Demo {
     public static void main(String[] args) {
+        PersistenceManager.open();
         // this reads config.xml to establish context
         //ApplicationContext context = new ClassPathXmlApplicationContext("spring-init-bean.xml");
         // this annotation based
@@ -33,6 +24,9 @@ public class Demo {
         //context.refresh();
 
         AppServer.start();
+        CategoryService.populateCategoriesTable();
+        Set<Category> categories = CategoryService.getAllCategories();
+        categories.iterator().forEachRemaining(category -> category.toJson());
 
 
         //EntityManager em = PersistenceManager.getEntityManager();

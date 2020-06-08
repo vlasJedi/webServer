@@ -11,7 +11,7 @@
 <body>
 <header>
     <div>
-    <div style="margin-left: auto; display: flex; flex-direction: column; max-width: 200px">
+    <div style="margin-left: auto; display: flex; flex-direction: column; max-width: 200px" id="userLoginPanel">
         <input style="display: inline-block; max-width: 100px; margin-top: 5px; margin-bottom: 5px" type="submit" name="register-btn-menu" value="Sign up" id="registerBtnMenuDropdown"/>
         <input style="display: inline-block; max-width: 100px; margin-top: 5px; margin-bottom: 5px" type="submit" name="sign-btn-menu" value="Sign in" id="signBtnMenuDropdown"/>
         <div style="position: absolute; right: 220px; top: 10px; max-width: 350px; background-color: #555555">
@@ -19,12 +19,12 @@
             <div style="display: flex; justify-content: space-between; align-items: center; max-width: 300px; min-width: 200px">
                 <label for="loginUsername">username</label>
                 <input style="display: inline-block; width: 150px; margin: 5px 10px"
-                   type="text" name="loginUsername" id="loginUsername" required pattern="[A-Za-z]"/>
+                   type="text" name="username" id="loginUsername" required pattern="[A-Za-z]{2,}"/>
             </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; max-width: 300px; min-width: 200px">
             <label for="loginPassword">password</label>
             <input style="display: inline-block; width: 150px; margin: 5px 10px"
-                   type="password" name="loginPassword" id="loginPassword" required/>
+                   type="password" name="password" id="loginPassword" required/>
                 </div>
                 <div>
             <input style="display: inline-block; max-width: 200px; margin-top: 5px; margin-bottom: 5px; margin-left: auto"
@@ -36,17 +36,17 @@
                 <div style="display: flex; justify-content: space-between; align-items: center; max-width: 300px; min-width: 200px">
                     <label for="loginUsername">username</label>
                     <input style="display: inline-block; width: 150px; margin: 5px 10px"
-                           type="text" name="signUsername" id="signUsername" required pattern="[A-Za-z]"/>
+                           type="text" name="username" id="signUsername" required pattern="[A-Za-z]{2,}"/>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; max-width: 300px; min-width: 200px">
                     <label for="loginPassword">password</label>
                     <input style="display: inline-block; width: 150px; margin: 5px 10px"
-                           type="password" name="signPassword" id="signPassword" required/>
+                           type="password" name="password" id="signPassword" required/>
                 </div>
                 <div style="display: flex; justify-content: space-between; align-items: center; max-width: 300px; min-width: 200px">
                     <label for="loginPassword">e-mail</label>
                     <input style="display: inline-block; width: 150px; margin: 5px 10px"
-                           type="email" name="signMail" id="signMail" required/>
+                           type="email" name="mail" id="signMail" required/>
                 </div>
                 <div>
                     <input style="display: inline-block; max-width: 200px; margin-top: 5px; margin-bottom: 5px; margin-left: auto"
@@ -57,8 +57,8 @@
     </div>
     </div>
 </header>
-<h1 class="main-header-caption">You are on the best page for study English by exercises, aga</h1>
-<section id="createTaskSection">
+<!--<h1 class="main-header-caption">You are on the best page for study English by exercises, aga</h1>-->
+<!--<section id="createTaskSection">
     <form method="post" enctype="multipart/form-data" id="submitTaskForm">
         <div class="create-task-label-input">
             <label for="taskNameInput">Task name: </label>
@@ -73,6 +73,6 @@
             <input class="create-task-submit" type="submit" name="taskSubmit" id="taskSubmit"/>
         </div>
     </form>
-</section>
+</section>-->
 </body>
 </html>

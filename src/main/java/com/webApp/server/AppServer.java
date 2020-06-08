@@ -3,6 +3,7 @@ package com.webApp.server;
 import com.sun.net.httpserver.HttpServer;
 import com.webApp.RestServices.CategoriesRestService;
 import com.webApp.RestServices.TasksRestService;
+import com.webApp.RestServices.UsersRestService;
 import com.webApp.addPack.RootHandler;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ public class AppServer {
             httpServer.createContext("/", new RootHandler());
             httpServer.createContext("/tasks", new TasksRestService());
             httpServer.createContext("/categories", new CategoriesRestService());
+            httpServer.createContext("/users", new UsersRestService());
             httpServer.setExecutor(null); // creates a default executor
             httpServer.start();
         } catch (UnknownHostException e) {

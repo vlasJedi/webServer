@@ -5,12 +5,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "USERS")
 public class User {
-    @Id
+    /*@Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column
-    private int id;
-
-    @Column(name = "name")
+    private int id;*/
+    @Id
+    @Column(name = "username")
     private String name;
 
     @Column(name = "password")
@@ -19,9 +19,9 @@ public class User {
     @Column(name = "mail")
     private String mail;
 
-    public int getId() {
+    /*public int getId() {
         return id;
-    }
+    }*/
 
     public String getName() {
         return name;

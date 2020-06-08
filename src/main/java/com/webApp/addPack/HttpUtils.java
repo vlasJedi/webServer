@@ -1,5 +1,8 @@
 package com.webApp.addPack;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Consumer;
@@ -68,5 +71,18 @@ public class HttpUtils {
         });
 
         return requestMap;
+    }
+
+    public static Map<String, String> getMapDataFromRequestBody(InputStream os) {
+        try {
+            byte[] bodyBytes = new byte[os.available()];
+            os.read(bodyBytes);
+            os.close();
+            return getParsedRequestMultiPartBody(bodyBytes);
+        } catch(IOException e) {
+            System.out.println("Could not get map of data from request body");
+            return null;
+        }
+
     }
 }

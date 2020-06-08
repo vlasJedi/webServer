@@ -76,10 +76,10 @@
 
                 xhr.addEventListener('loadend', function () {
                     if (xhr.readyState === 4) {
-                        callbackSuccess(xhr.response);
+                        callbackSuccess && callbackSuccess(xhr.response);
                         return;
                     }
-                    callbackFault();
+                    callbackFault && callbackFault();
                 });
 
                 /**

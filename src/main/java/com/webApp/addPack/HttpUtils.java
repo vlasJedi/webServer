@@ -2,8 +2,10 @@ package com.webApp.addPack;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
@@ -83,6 +85,17 @@ public class HttpUtils {
             System.out.println("Could not get map of data from request body");
             return null;
         }
+    }
 
+    public String getHashFrom(String string, boolean withSignKey, String algo) {
+        if (algo == null || algo.isEmpty()) algo = "MD5";
+        MessageDigest md = null;
+        String finalString = null;
+        try {
+            md = MessageDigest.getInstance(algo);
+            md.update(new String(withSignKey ? string + "someKey" : string).getBytes(StandardCharsets.UTF_8));
+            finalString = new String(md.digest(), StandardCharsets.UTF_8);
+        } catch (NoSuchAlgorithmException e) {}
+        return finalString;
     }
 }

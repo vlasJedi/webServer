@@ -1,27 +1,40 @@
 package com.webApp.repos.UserRepo;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "USERS")
+@Table(name = "USERS", uniqueConstraints = @UniqueConstraint(columnNames = {"username"}))
 public class User {
-    /*@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column
-    private int id;*/
-    @Id
+    private int id;
+
     @Column(name = "username")
+    //@OneToOne(mappedBy = "username")
+    @NotNull
     private String name;
 
     @Column(name = "password")
+    @NotNull
     private String password;
 
     @Column(name = "mail")
+    @NotNull
     private String mail;
 
-    /*public int getId() {
+    public int getId() {
         return id;
-    }*/
+    }
+
+    public User() {}
+
+    public User(String username, String password, String mail) {
+        this.name = username;
+        this.password = password;
+        this.mail = mail;
+    }
 
     public String getName() {
         return name;

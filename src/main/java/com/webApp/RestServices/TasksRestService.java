@@ -1,10 +1,10 @@
+/*
 package com.webApp.RestServices;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.webApp.addPack.HttpUtils;
-import com.webApp.addPack.SuperArray;
-import com.webApp.repos.CategoryRepo.Category;
+import com.webApp.repos.RouteRepo.Route;
 import com.webApp.repos.PersistenceManager;
 import com.webApp.repos.TaskRepo.Task;
 
@@ -28,14 +28,16 @@ public class TasksRestService implements HttpHandler{
         byte[][] response = taskRestService(httpExchange.getRequestMethod(), httpExchange.getRequestURI(), httpExchange.getRequestBody());
         contentLength = response[0].length;
         OutputStream outputStream = httpExchange.getResponseBody();
-        /*PrintWriter writerOutputStream = new PrintWriter(outputStream);
+PrintWriter writerOutputStream = new PrintWriter(outputStream);
         BufferedWriter bufferedWriter = new BufferedWriter( writerOutputStream );
-        String fileTextContent = fileReader.getFileTextContent();*/
-        /*if ( fileTextContent == null ) {
+        String fileTextContent = fileReader.getFileTextContent();
+
+if ( fileTextContent == null ) {
             System.out.println("RootHandler|handle(): " + "fileTextContent is null");
             fileTextContent = "Error 503: could not get fileTextContent for the url";
         }
-        bufferedWriter.write( fileTextContent );*/
+        bufferedWriter.write( fileTextContent );
+
         try {
             if (response[0].length == 0) {
                 httpExchange.sendResponseHeaders(404, contentLength);
@@ -89,12 +91,12 @@ public class TasksRestService implements HttpHandler{
                     em = PersistenceManager.getEntityManager();
                     transaction = em.getTransaction();
                     transaction.begin();
-                    Category category = new Category("Times", "category of time tasks");
-                    Task task = new Task(requestMap.get("taskName"), requestMap.get("taskDesc"), category);
-                    if (category.getTasks() == null) category.setTasks(new ArrayList<>());
-                    category.getTasks().add(task);
+                    Route route = new Route("Times", "category of time tasks");
+                    Task task = new Task(requestMap.get("taskName"), requestMap.get("taskDesc"), route);
+                    if (route.getTasks() == null) route.setTasks(new ArrayList<>());
+                    route.getTasks().add(task);
                     em.persist(task);
-                    em.persist(category);
+                    em.persist(route);
                     em.flush();
                     transaction.commit();
                     em.close();
@@ -113,3 +115,4 @@ public class TasksRestService implements HttpHandler{
         return response;
     }
 }
+*/

@@ -14,4 +14,8 @@ public class UsersController {
     public static boolean validateUser(User user) {
         return UsersService.isValidUser(user);
     }
+
+    public static boolean doesUserExist(String username) {
+        return UsersService.readUser(username) != null;
+    }
 }

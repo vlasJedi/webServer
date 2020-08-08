@@ -43,8 +43,5 @@ public class UsersRestService implements HttpHandler {
             httpExchange.getResponseBody().close();
             httpExchange.close();
         } catch (IOException e) {}
-
-
-
     }
 }

@@ -1,6 +1,6 @@
 package com.webApp.addPack;
-import com.webApp.repos.CategoryRepo.Category;
-import com.webApp.repos.CategoryRepo.CategoryService;
+import com.webApp.repos.RouteRepo.Route;
+import com.webApp.repos.RouteRepo.RouteService;
 import com.webApp.repos.PersistenceManager;
 import com.webApp.server.AppServer;
 
@@ -24,9 +24,9 @@ public class Demo {
         //context.refresh();
 
         AppServer.start();
-        CategoryService.populateCategoriesTable();
-        Set<Category> categories = CategoryService.getAllCategories();
-        categories.iterator().forEachRemaining(category -> category.toJson());
+        RouteService routeService = RouteService.get();
+        //Set<Route> categories = RouteService.getAllCategories();
+        //categories.iterator().forEachRemaining(category -> category.toJson());
 
 
         //EntityManager em = PersistenceManager.getEntityManager();

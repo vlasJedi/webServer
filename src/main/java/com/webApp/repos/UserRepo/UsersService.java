@@ -24,6 +24,9 @@ public class UsersService {
     }
 
     public static User readUser(String userName) {
+        if (userName == null || userName.isEmpty()) {
+            return null;
+        }
         EntityManager em = PersistenceManager.getEntityManager();
         User user = em.find(User.class, userName);
         em.close();

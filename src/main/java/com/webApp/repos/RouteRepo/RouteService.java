@@ -1,15 +1,13 @@
-package com.webApp.repos.CategoryRepo;
+package com.webApp.repos.RouteRepo;
 
 import com.webApp.repos.PersistenceManager;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.TransactionRequiredException;
 import java.util.*;
-import java.util.stream.Stream;
 
-public class CategoryService {
-    public enum CATEGORIES {
+public class RouteService {
+    /*public enum CATEGORIES {
         TIMES("times"),
         ADJECTIVES("adjectives"),
         MATCHING("matching");
@@ -24,55 +22,70 @@ public class CategoryService {
         public String getCategory() {
             return this.category;
         }
+    }*/
+    private static RouteService routeService = null;
+
+    private RouteService() {
+        Set<Route> routes = new HashSet<Route>();
+        routes.add(new Route("/home"));
+        routes.add(new Route("/about-us"));
+        routes.add(new Route("/portfolio"));
+        routes.add(new Route("/contact"));
+        insertRoutes(routes);
     }
 
-    public static boolean insertCategory(Category category) {
-        if (category == null) {
-            System.out.println("CategoryService:insertCategory > Null category is not allowed");
+    public boolean insertRoute(Route route) {
+        if (route == null) {
+            System.out.println("RouteService:insertRoute > Null route is not allowed");
             return false;
         }
         EntityManager em = PersistenceManager.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        em.persist(category);
+        em.persist(route);
         em.flush();
         transaction.commit();
         em.close();
         return true;
     }
 
-    public static Set<Category> createCategoriesSet() {
-        Set<Category> set = new HashSet<>();
+    /*public static Set<Route> createCategoriesSet() {
+        Set<Route> set = new HashSet<>();
         Arrays.stream(CATEGORIES.values()).forEach(
-                category -> set.add(new Category(category.toString(), "description for: " + category)));
+                category -> set.add(new Route(category.toString(), "description for: " + category)));
         return set;
-    }
+    }*/
 
-    public static void populateCategoriesTable() {
-        Set<Category> set = createCategoriesSet();
+    /*public static void populateCategoriesTable() {
+        Set<Route> set = createCategoriesSet();
         insertCategories(set);
-    }
+    }*/
 
-    public static boolean insertCategories(Set<Category> categories) {
+    public boolean insertRoutes(Set<Route> routes) {
         EntityManager em = PersistenceManager.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        categories.iterator().forEachRemaining(em::persist);
+        routes.iterator().forEachRemaining(em::persist);
         em.flush();
         transaction.commit();
         em.close();
         return true;
     }
 
-    public static Set<Category> getAllCategories() {
+    public Set<Route> getAllRoutes() {
         EntityManager em = PersistenceManager.getEntityManager();
         EntityTransaction transaction = em.getTransaction();
         transaction.begin();
-        Set<Category> categories = new HashSet<>(em.createQuery(
-                "SELECT category FROM Category category", Category.class).getResultList());
+        Set<Route> routes = new HashSet<>(em.createQuery(
+                "SELECT route FROM Route route", Route.class).getResultList());
         em.flush();
         transaction.commit();
         em.close();
-        return categories;
+        return routes;
+    }
+
+    public static RouteService get() {
+        if (routeService == null) routeService = new RouteService();
+        return routeService;
     }
 }

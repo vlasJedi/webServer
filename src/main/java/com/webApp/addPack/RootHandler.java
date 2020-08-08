@@ -1,3 +1,4 @@
+/*
 package com.webApp.addPack;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -63,14 +64,18 @@ public class RootHandler implements HttpHandler {
         }
 
         OutputStream outputStream = httpExchange.getResponseBody();
-        /*PrintWriter writerOutputStream = new PrintWriter(outputStream);
+        */
+/*PrintWriter writerOutputStream = new PrintWriter(outputStream);
         BufferedWriter bufferedWriter = new BufferedWriter( writerOutputStream );
-        String fileTextContent = fileReader.getFileTextContent();*/
-        /*if ( fileTextContent == null ) {
+        String fileTextContent = fileReader.getFileTextContent();*//*
+
+        */
+/*if ( fileTextContent == null ) {
             System.out.println("RootHandler|handle(): " + "fileTextContent is null");
             fileTextContent = "Error 503: could not get fileTextContent for the url";
         }
-        bufferedWriter.write( fileTextContent );*/
+        bufferedWriter.write( fileTextContent );*//*
+
         try {
             if (response == null) {
                 httpExchange.sendResponseHeaders(statusCode, contentLength);
@@ -106,3 +111,4 @@ public class RootHandler implements HttpHandler {
     }
 
 }
+*/
